@@ -17,7 +17,21 @@ Scene::Scene(Input *in)
 
 void Scene::handleInput(float dt)
 {
-	// Handle user input
+	// Camera movement
+	if (input->isKeyDown('w')) myCamera.moveForward(dt * 10);
+	else if (input->isKeyDown('s'))	myCamera.moveForward(-dt * 10);
+	if (input->isKeyDown(32)) myCamera.moveUp(dt * 10);
+	else if (GetAsyncKeyState(VK_CONTROL)) myCamera.moveUp(-dt * 10);									//This is needed cuz ctrl is a modifier key, thus it doesn't normally register alone normally. Shift is VK_SHIFT
+
+	int mousePos[2] = { input->getMouseX(), input->getMouseY()};
+	// Camera rotation
+	if (input->isMouseRDown())
+	{
+		myCamera.turnUp(mousePreviousPos[1] - mousePos[1]);
+		myCamera.turnRight(mousePos[0] - mousePreviousPos[0]);
+	}
+	mousePreviousPos[0] = mousePos[0];
+	mousePreviousPos[1] = mousePos[1];
 }
 
 void Scene::update(float dt)
@@ -36,11 +50,12 @@ void Scene::render() {
 	// Reset transformations
 	glLoadIdentity();
 	// Set the camera
-	gluLookAt(0.0f, 0.0f, 6.0f, 0.0f, 0.0f, 0.0f, 0.0f, 1.0f, 0.0f);
+	//gluLookAt(0.0f, 0.0f, 6.0f, 0.0f, 0.0f, 0.0f, 0.0f, 1.0f, 0.0f);
+	myCamera.update();
 	
 	// Render geometry/scene here -------------------------------------
 	
-
+	drawSeven();
 
 	// End render geometry --------------------------------------
 
@@ -148,4 +163,90 @@ void Scene::displayText(float x, float y, float r, float g, float b, char* strin
 	glLoadIdentity();
 	gluPerspective(fov, ((float)width/(float)height), nearPlane, farPlane);
 	glMatrixMode(GL_MODELVIEW);
+}
+
+
+void Scene::drawSeven()
+{
+	glPushMatrix();	//Sun
+		glColor3f(1, 1, 0);
+		glRotatef(time / 30, 0, 0, 1);
+		glTranslatef(7, 0, 0);
+
+		glutWireSphere(3, 20, 10);
+
+		glPushMatrix();	//Planet
+			glColor3f(0, 0, 1);
+			glRotatef(time / 20, 0, 0, 1);
+			glTranslatef(20, 0, 0);
+
+			glutWireSphere(1, 10, 7);
+
+			glPushMatrix();	//Moon1
+				glColor3f(0.4, 0.4, 0.4);
+				glRotatef(time / 5, 0, 0, 1);
+				glTranslatef(3, 0, 0);
+
+				glutWireSphere(0.4, 7, 5);
+			glPopMatrix();	//Moon1
+			glPushMatrix();	//Moon2
+				glColor3f(0.6, 0.6, 0.6);
+				glRotatef(time / 8, 0, 1, 0);
+				glTranslatef(4.5, 0, 0);
+				
+				glutWireSphere(0.3, 7, 5);
+			glPopMatrix();	//Moon2
+		glPopMatrix();	//Planet
+
+		
+		glPushMatrix();	//Planet2
+			glColor3f(1, 0, 0);
+			glRotatef(time / 6, 0, 0, 1);
+			glTranslatef(10, 0, 0);
+
+			glutWireSphere(0.9, 10, 7);
+
+			glPushMatrix();	//Moon1
+				glColor3f(0.4, 0.4, 0.4);
+				glRotatef(time / 3, 0, 0.3, 1);
+				glTranslatef(3, 0, 0);
+
+				glutWireSphere(0.4, 7, 5);
+
+				glPushMatrix();	//Moonception
+					glColor3f(0.2, 0.2, 0.2);
+					glRotatef(time / 5, 0, 0.3, 1);
+					glTranslatef(3, 0, 0);
+
+					glutWireSphere(0.2, 7, 5);
+
+				glPopMatrix();	//Moonception
+			glPopMatrix();	//Moon1
+			glPushMatrix();	//Moon2
+				glColor3f(0.6, 0.6, 0.6);
+				glRotatef(time / 5, 0, 1, 0.6);
+				glTranslatef(4.5, 0, 0);
+				
+				glutWireSphere(0.3, 7, 5);
+			glPopMatrix();	//Moon2
+		glPopMatrix();	//Planet2
+	glPopMatrix();	//Sun
+
+
+
+	//glPopMatrix();
+	//
+	//glPushMatrix();
+
+	//	//glRotatef(triangleRotation, 0, 0, 1);
+	//	glTranslatef(-1.5, 0, 0);
+	//	glScalef(2, 2, 1);
+
+	//	glBegin(GL_TRIANGLES);
+	//		glVertex3f(0, 0.5, 0);
+	//		glVertex3f(0.5, 0, 0);
+	//		glVertex3f(-0.5, 0, 0);
+	//	glEnd();
+
+	//glPopMatrix();
 }

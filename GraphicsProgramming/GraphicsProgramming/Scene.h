@@ -15,7 +15,7 @@
 // Further includes should go here:
 #include "SOIL.h"
 #include <vector>
-
+#include "MyCamera.h"
 
 class Scene{
 
@@ -41,9 +41,16 @@ protected:
 
 	// draw primitive functions
 	
+	void drawSeven();
+
 
 	// For access to user input.
 	Input* input;
+	int mousePreviousPos[2];
+
+	// My camera
+	MyCamera myCamera;
+
 		
 	// For Window and frustum calculation.
 	int width, height;

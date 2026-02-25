@@ -4,12 +4,13 @@
 #include <gl/GL.h>
 #include <gl/GLU.h>
 
+
 class MyCamera
 {
 	public:
 		MyCamera(Vector3 position = { 0, 0, 0 }, Vector3 rotation = {0, 0, 0});
 
-		void update(float dt);
+		void update();
 
 		void moveForward(float speed);
 		void moveRight(float speed);
@@ -21,9 +22,10 @@ class MyCamera
 		
 
 	private:
-		Vector3 Position;
-		Vector3 Rotation;
+		Vector3 Position = {0,0,0};
+		Vector3 Rotation = {0,0,0};
 		Vector3 Up;
+		Vector3 Right;
 		Vector3 Forward;
 };
 

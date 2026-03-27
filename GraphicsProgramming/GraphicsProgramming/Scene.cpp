@@ -22,6 +22,8 @@ void Scene::handleInput(float dt)
 	else if (input->isKeyDown('s'))	myCamera.moveForward(-dt * 10);
 	if (input->isKeyDown(32)) myCamera.moveUp(dt * 10);
 	else if (GetAsyncKeyState(VK_CONTROL)) myCamera.moveUp(-dt * 10);									//This is needed cuz ctrl is a modifier key, thus it doesn't normally register alone normally. Shift is VK_SHIFT
+	if (input->isKeyDown('d')) myCamera.moveRight(dt * 10);
+	else if (input->isKeyDown('a')) myCamera.moveRight(-dt * 10);
 
 	int mousePos[2] = { input->getMouseX(), input->getMouseY()};
 	// Camera rotation

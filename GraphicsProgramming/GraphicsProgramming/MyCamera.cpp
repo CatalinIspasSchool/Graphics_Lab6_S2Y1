@@ -37,6 +37,7 @@ MyCamera::MyCamera(Vector3 position, Vector3 rotation)
 	// Side Vector (right)
 	// this is a cross product between the forward and up vector.
 	// If you don’t need to calculate this, don’t do it. (I do)
+	Right = Forward.cross(Up);
 }
 
 void MyCamera::update()
@@ -60,10 +61,13 @@ void MyCamera::moveForward(float speed)
 //incomplete
 void MyCamera::moveRight(float speed)
 {
-
+	Vector3 nRi = Right.normalised();
+	Position.x += nRi.x * speed;
+	Position.y += nRi.y * speed;
+	Position.z += nRi.z * speed;
 }
 
-// untested but complete
+//complete
 void MyCamera::moveUp(float speed)
 {
 	Vector3 nUp = Up.normalised();
@@ -107,6 +111,9 @@ void MyCamera::turnUp(float speed)
 	Up.y = cosP * cosR;// should default to 1, rest to 0
 	Up.z = -sinY * sinR - sinP * cosR * -cosY;
 
+
+	Right = Forward.cross(Up);
+
 }
 
 //functional but fast with just +-dt as input
@@ -144,4 +151,5 @@ void MyCamera::turnRight(float speed)
 	Up.z = -sinY * sinR - sinP * cosR * -cosY;
 
 
+	Right = Forward.cross(Up);
 }

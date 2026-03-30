@@ -19,10 +19,10 @@ class MyCamera
 		void turnRight(float speed);
 		void turnUp(float speed);
 
-		
+
+		Vector3 Position = { 0,0,0 };
 
 	private:
-		Vector3 Position = {0,0,0};
 		Vector3 Rotation = {0,0,0};
 		Vector3 Up;
 		Vector3 Right;
